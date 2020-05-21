@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import * as yup from 'yup';
+import axios from 'axios';
 
 
 
@@ -45,12 +46,24 @@ let Form = props => {
 
     //Callback functions
 
+
     let submitClicked = event => { 
 
         event.preventDefault()
-    
-        console.log('Submitted data:', formState);
-    
+
+        axios
+            .post('https://reqres.in/api/users', formState)
+            .then(response => {
+
+                console.log(response.data);
+
+            })
+            .catch(err => {
+
+                console.log(err);
+
+            });
+
     }
 
     
