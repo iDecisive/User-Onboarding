@@ -16,6 +16,31 @@ let Form = props => {
     
     });
 
+    const [inputErrors, setInputErrors] = useState({ //State for form input validation errors
+        email: "",
+        password: "",
+        terms: ""
+      });
+
+      //Input validation schema using Yup
+
+      const formSchema = yup.object().shape({
+        name: yup
+            .string()
+            .min(1, "Type your name")
+            .required("Name is Required"),
+        email: yup
+            .string()
+            .email("Must be a valid email address.")
+            .required("Must include email address."),
+        password: yup
+            .string()
+            .min(6, "Passwords must be at least 6 characters long.")
+            .required("Password is Required"),
+        terms: yup
+            .boolean()
+            .oneOf([true], "You must accept Terms and Conditions")
+      });
 
 
     //Callback functions
@@ -28,9 +53,39 @@ let Form = props => {
     
     }
 
+    
+
     let onFormInput = event => {
 
         let checked = event.target.parentElement.parentElement.querySelector('.terms').checked;
+
+        //Sets inputErrors state if invalid input
+
+        yup
+            .reach(formSchema, event.target.name)
+            .validate(event.target.value)
+            .then(valid => {
+
+                setInputErrors({
+
+                    ...inputErrors,
+                    [event.target.name]: ''
+
+                });
+
+            })
+            .catch(err => {
+
+                setInputErrors({
+
+                    ...inputErrors,
+                    [event.target.name]: err.errors[0]
+
+                });
+
+            })
+
+        //Sets form state
 
         setFormState({
 
@@ -39,12 +94,19 @@ let Form = props => {
             terms: checked
             
         });
+
+        event.persist()
+
     }
 
 
     useEffect(() => {
 
-        const formSchema = yup.object().shape({ //Schema for checking if form input is valid
+        const formSchema = yup.object().shape({ //Had to copy schema into here for it to work
+            name: yup
+                .string()
+                .min(1, "Type your name")
+                .required("Name is Required"),
             email: yup
                 .string()
                 .email("Must be a valid email address.")
@@ -72,6 +134,7 @@ let Form = props => {
         <form onSubmit={event => submitClicked(event)}>
 
             <label>
+
                 Name
 
                 <input 
@@ -84,23 +147,54 @@ let Form = props => {
             </label>
 
             <label>
+
                 Email
-                <input name='email' type='text' value={formState.email} onChange={event => onFormInput(event)}></input>
+
+                <input name='email' 
+                type='text' 
+                value={formState.email} 
+                onChange={event => onFormInput(event)}>
+                </input>
+
             </label>
 
             <label>
+
                 Password
-                <input name='password' type='text' value={formState.password} onChange={event => onFormInput(event)}></input>
+
+                <input 
+                name='password' 
+                type='text' 
+                value={formState.password} 
+                onChange={event => onFormInput(event)}>
+                </input>
+
             </label>
 
             <label>
+
                 Accept Terms of Service
-                <input className='terms' name='terms' type='checkbox' onChange={event => onFormInput(event)}></input>
+
+                <input 
+                className='terms' 
+                name='terms' 
+                type='checkbox' 
+                onChange={event => onFormInput(event)}>
+                </input>
+
             </label>
 
             <button disabled={true}>
                 Submit
             </button>
+
+            <div>
+
+                <h2>{inputErrors.name}</h2>
+                <h2>{inputErrors.email}</h2>
+                <h2>{inputErrors.password}</h2>
+
+            </div>
 
         </form>
 
