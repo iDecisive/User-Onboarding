@@ -5,7 +5,8 @@ import * as yup from 'yup';
 
 let Form = props => {
 
-    
+    //State 
+
     const [formState, setFormState] = useState({ //Stores form data here
     
         name: '',
@@ -15,13 +16,31 @@ let Form = props => {
     
     });
 
-    let submitClicked = event => { //func is invoked when you submit the form
+
+
+    //Callback functions
+
+    let submitClicked = event => { 
 
         event.preventDefault()
     
-        console.log('submitted!');
+        console.log('Submitted data:', formState);
     
     }
+
+    let onFormInput = event => {
+
+        let checked = event.target.parentElement.parentElement.querySelector('.terms').checked;
+
+        setFormState({
+
+            ...formState,
+            [event.target.name]: event.target.value,
+            terms: checked
+            
+        });
+    }
+
 
     useEffect(() => {
 
@@ -45,23 +64,8 @@ let Form = props => {
 
         })
 
-    },[formState]) //^this runs when formState changes
+    },[formState]) //runs when formState changes
 
-
-    let onFormInput = event => { //Called when form has taken in input
-
-        let checked = event.target.parentElement.parentElement.querySelector('.terms').checked;
-
-        setFormState({
-
-            ...formState,
-            [event.target.name]: event.target.value, //merges the new values into formState
-            terms: checked
-            
-        });
-
-        console.log(formState);
-    }
 
     return(
 
@@ -69,17 +73,24 @@ let Form = props => {
 
             <label>
                 Name
-                <input name='name' type='text' onChange={event => onFormInput(event)}></input>
+
+                <input 
+                name='name' 
+                type='text' 
+                value={formState.name}
+                onChange={event => onFormInput(event)}>
+                </input>
+
             </label>
 
             <label>
                 Email
-                <input name='email' type='text' onChange={event => onFormInput(event)}></input>
+                <input name='email' type='text' value={formState.email} onChange={event => onFormInput(event)}></input>
             </label>
 
             <label>
                 Password
-                <input name='password' type='text' onChange={event => onFormInput(event)}></input>
+                <input name='password' type='text' value={formState.password} onChange={event => onFormInput(event)}></input>
             </label>
 
             <label>
