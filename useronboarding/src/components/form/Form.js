@@ -6,6 +6,9 @@ import axios from 'axios';
 
 let Form = props => {
 
+    let users = props.users;
+    let setUsers = props.setUsers;
+
     //State 
 
     const [formState, setFormState] = useState({ //Stores form data here
@@ -22,6 +25,7 @@ let Form = props => {
         password: "",
         terms: ""
       });
+
 
       //Input validation schema using Yup
 
@@ -55,7 +59,14 @@ let Form = props => {
             .post('https://reqres.in/api/users', formState)
             .then(response => {
 
-                console.log(response.data);
+                console.log('Data response:', response.data);
+
+                setUsers([
+
+                    ...users,
+                    response.data.name
+
+                ]);
 
             })
             .catch(err => {
