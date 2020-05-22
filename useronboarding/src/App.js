@@ -6,7 +6,7 @@ import Form from './components/form/Form'
 
 function App() {
 
-  const [users, setUsers] = useState([]) //Gets set on response from axios call - when the new user is created this state will get a new item containing their name
+  const [users, setUsers] = useState([]) //Set on response from axios call - when the new user is created this array will get a new item containing their name
 
   return (
     <div className="App">
