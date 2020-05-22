@@ -28,12 +28,44 @@ describe('Form inputs', () => {
 
     })
 
+    it('Can type an email', () => {
+
+        cy.get('input[name="email"]')
+        .type('mister@person.com')
+
+    })
+
+    it('Can type a password', () => {
+
+        cy.get('input[name="password"]')
+        .type('aBcDeFg123')
+
+    })
+
+    it('Can check checkbox', () => {
+
+        cy.get('input.terms').check()
+
+    })
+
+    it('Can submit form', () => {
+
+        cy.get('button').click()
+        //.should('be.enabled')
+
+    })
+
 })
+
 
 describe('Form validation', () => {
 
-})
+    it('Email validation', () => {
 
-describe('Form submission', () => {
+        cy.get('input[name="email"]').clear()
+
+        cy.get('.emailerr').contains('Must')
+
+    })
 
 })

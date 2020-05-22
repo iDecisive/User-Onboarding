@@ -215,7 +215,7 @@ let Form = props => {
             <div>
 
                 <h2>{inputErrors.name}</h2>
-                <h2>{inputErrors.email}</h2>
+                <h2 className='emailerr'>{inputErrors.email}</h2>
                 <h2>{inputErrors.password}</h2>
 
             </div>
