@@ -14,6 +14,20 @@ describe('Form inputs', () => {
 
     })
 
+    it('Can type a username', () => {
+
+        cy.get('input[name="name"]')
+        .type('Mister Person')
+
+    })
+
+    it('Name was correctly typed and displayed in the input box', () => {
+
+        cy.get('input[name="name"]')
+        .should('have.value', 'Mister Person')
+
+    })
+
 })
 
 describe('Form validation', () => {
